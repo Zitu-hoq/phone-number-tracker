@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phone Number Tracker</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css')}}"
+    />
+    <script>
+      async function processPhoneNumber() {
+        const phoneNumber = document.getElementById("phone_number").value;
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = "Processing...";
+
+        try {
+          const response = await fetch("/process", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ phone_number: phoneNumber }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            resultDiv.innerHTML = `
+                        <p><b>Network Provider:</b> ${data.network_provider}</p>
+                        <p><b>Time Zone:</b> ${data.time_zone.join(", ")}</p>
+                        <p><b>Location:</b> ${data.location}</p>
+                        <p><a href="${
+                          data.map_file
+                        }" target="_blank">View Map</a></p>
+                        <p><a href="/download">Download Map</a></p>
+                    `;
+          } else {
+            resultDiv.innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+          }
+        } catch (error) {
+          resultDiv.innerHTML = `<p style="color: red;">An unexpected error occurred: ${error.message}</p>`;
+        }
+      }
+
+      function clearInput() {
+        document.getElementById("phone_number").value = "";
+        document.getElementById("result").innerHTML = "";
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Phone Number Tracker</h1>
+      <form onsubmit="event.preventDefault(); processPhoneNumber();">
+        <label for="phone_number">Enter Phone Number:</label>
+        <input type="text" id="phone_number" name="phone_number" required />
+        <button type="submit" class="btn submit">Submit</button>
+        <button type="button" class="btn clear" onclick="clearInput()">
+          Clear
+        </button>
+      </form>
+      <div id="result" class="result"></div>
+    </div>
+  </body>
+</html>

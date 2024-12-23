@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "phonenumbertracker"
+version = "0.1.0"
+description = "Just a tracker using phone number"
+authors = ["Zitu Hoq <zhzhitu121@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+flask = "^3.1.0"
+phonenumbers = "^8.13.52"
+opencage = "^3.0.3"
+folium = "^0.19.2"
+python-dotenv = "^1.0.1"
+gunicorn = "^23.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
