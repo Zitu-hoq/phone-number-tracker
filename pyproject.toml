@@ -3,7 +3,7 @@ name = "phonenumbertracker"
 version = "0.1.0"
 description = "Just a tracker using phone number"
 authors = ["Zitu Hoq <zhzhitu121@gmail.com>"]
-readme = "README.md"
+# readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
